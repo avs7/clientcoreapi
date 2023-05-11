@@ -1,19 +1,12 @@
 class ApplicationController < ActionController::API
-  include JwtToken
-
-  before_action :authenticate_user
-
-  private
-  def authenticate_user
-    header = request.headers['Authorization']
-    header = header.split(' ').last if header
-    begin
-      @decoded = JwtToken.decode(header)
-      @current_user = User.find(@decoded[:email])
-    rescue ActiveRecord::RecordNotFound => e
-      render json: { errors: e.message }, status: :unauthorized
-    rescue JWT::DecodeError => e
-      render json: { errors: e.message }, status: :unauthorized
-    end
+  def ensure_authorized!
+    render json: { error: "unauthorized" }, status: :unauthorized if current_user.nil?
   end
+
+  def current_user = @current_user ||= User.find_by_jwt(jwt)
+
+  def jwt
+    request.headers[:authorization]&.split&.last
+  end
+
 end
