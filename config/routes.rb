@@ -5,5 +5,6 @@ Rails.application.routes.draw do
   resource :user, only: %i[index]
   resource :task
   resource :note
+  resource :contact
 
 end
