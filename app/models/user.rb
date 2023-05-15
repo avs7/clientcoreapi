@@ -1,12 +1,12 @@
 class User < ApplicationRecord
   has_secure_password :password
 
+  validates :email, presence: true, uniqueness: true
+  validates :password, presence: true
+
   has_many :contacts
   has_many :notes
   has_many :tasks
-
-  validates :email, presence: true, uniqueness: true
-  validates :password, presence: true
 
   def self.find_by_credentials(email, password) = find_by(email:)&.authenticate(password)
 
