@@ -1,19 +1,15 @@
 class NotesController < ApplicationController
   before_action :ensure_authorized!
   def index
-    @notes = Note.all
+    @notes = current_user.notes
   end
 
   def show
-    @note = Note.find(params[:id])
-  end
-
-  def new
-    @note = Note.new
+    @note = current_user.notes.find(params[:id])
   end
 
   def create
-    @note = Note.new(note_params)
+    @note = current_user.notes.new(note_params)
     if @note.save
     else
       render @note.errors
@@ -21,11 +17,11 @@ class NotesController < ApplicationController
   end
 
   def edit
-    @note = Note.find(params[:id])
+    @note = current_user.notes.find(params[:id])
   end
 
   def update
-    @note = Note.find(params[:id])
+    @note = current_user.notes.find(params[:id])
     if @note.update(note_params)
     else
       render @note.errors
@@ -33,7 +29,7 @@ class NotesController < ApplicationController
   end
 
   def destroy
-    @note = Note.find(params[:id])
+    @note = current_user.notes.find(params[:id])
     @note.destroy
   end
 

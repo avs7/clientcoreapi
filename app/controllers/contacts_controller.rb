@@ -1,19 +1,15 @@
 class ContactsController < ApplicationController
     before_action :ensure_authorized!
     def index
-      @contacts = Contact.all
+      @contacts = current_user.contacts
     end
 
     def show
-      @contact = Contact.find(params[:id])
-    end
-
-    def new
-      @contact = Contact.new
+      @contact = current_user.contacts.find(params[:id])
     end
 
     def create
-      @contact = Contact.new(contact_params)
+      @contact = current_user.contacts.new(contact_params)
       if @contact.save
       else
         render @contact.errors
@@ -21,11 +17,11 @@ class ContactsController < ApplicationController
     end
 
     def edit
-      @contact = Contact.find(params[:id])
+      @contact = current_user.contacts.find(params[:id])
     end
 
     def update
-      @contact = Contact.find(params[:id])
+      @contact = current_user.contacts.find(params[:id])
       if @contact.update(contact_params)
       else
         render @contact.errors
@@ -33,7 +29,7 @@ class ContactsController < ApplicationController
     end
 
     def destroy
-      @contact = Contact.find(params[:id])
+      @contact = current_user.contacts.find(params[:id])
       @contact.destroy
     end
 
