@@ -16,10 +16,6 @@ class ContactsController < ApplicationController
       end
     end
 
-    def edit
-      @contact = current_user.contacts.find(params[:id])
-    end
-
     def update
       @contact = current_user.contacts.find(params[:id])
       if @contact.update(contact_params)

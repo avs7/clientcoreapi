@@ -16,10 +16,6 @@ class NotesController < ApplicationController
     end
   end
 
-  def edit
-    @note = current_user.notes.find(params[:id])
-  end
-
   def update
     @note = current_user.notes.find(params[:id])
     if @note.update(note_params)

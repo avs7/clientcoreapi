@@ -13,6 +13,19 @@ class UsersController < ApplicationController
     end
   end
 
+  def update
+    @user = current_user
+    if @user.update(contact_params)
+    else
+      render @user.errors
+    end
+  end
+
+  def destroy
+    @user = current_user
+    @user.destroy
+  end
+
 
 
   private
